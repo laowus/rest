@@ -11,16 +11,24 @@
   },
 
   "app": {
-    "withGlobalTauri": true,
-    "windows": [
-      {
-        "title": "rest",
-        "width": 800,
-        "height": 600
-      }
-    ],
+    "windows": [],
     "security": {
-      "csp": null
+      "csp": {
+        "default-src": "'self' 'unsafe-inline' blob: data: customprotocol: asset: http://asset.localhost ipc: http://ipc.localhost"},"assetProtocol": {
+        "enable": true,
+        "scope": {
+          "allow": [
+            "$RESOURCE/**",
+            "$APPDATA/**/*",
+            "$APPCACHE/**/*",
+            "$TEMP/**/*",
+            "**/Rest/**/*",
+            "/private/var/mobile/Containers/Data/Application/**/*"
+          ],
+          "deny": []
+        }
+      }
+     
     }
   },
   "bundle": {
@@ -33,5 +41,35 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ]
+  },
+  "plugins": {
+    "fs": {
+      "requireLiteralLeadingDot": false
+    },   
+    "cli": {
+      "description": "rest CLI",
+      "args": [
+        {
+          "name": "file1",
+          "index": 1,
+          "takesValue": true
+        },
+        {
+          "name": "file2",
+          "index": 2,
+          "takesValue": true
+        },
+        {
+          "name": "file3",
+          "index": 3,
+          "takesValue": true
+        },
+        {
+          "name": "file4",
+          "index": 4,
+          "takesValue": true
+        }
+      ]
+    }
   }
 }
