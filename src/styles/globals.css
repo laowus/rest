@@ -1,0 +1,53 @@
+/* Tailwind CSS 导入语句 */
+/* 导入 Tailwind 的基础样式，如默认字体、颜色等 */
+@tailwind base;
+/* 导入 Tailwind 的组件样式 */
+@tailwind components;
+/* 导入 Tailwind 的工具类 */
+@tailwind utilities;
+/* 全局根元素样式设置 */
+:root {
+  border-radius: 10px; /* 默认圆角 */
+  scrollbar-gutter: auto !important; /* 滚动条沟槽样式 */
+  overscroll-behavior: none; /* 禁用过度滚动效果 */
+  background-color: transparent; /* 透明背景 */
+
+  /* 安全区域边距变量，适配刘海屏等异形屏设备 */
+  --safe-area-inset-top: env(safe-area-inset-top);
+  --safe-area-inset-right: env(safe-area-inset-right);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom);
+  --safe-area-inset-left: env(safe-area-inset-left);
+}
+
+/* 修复 DaisyUI 模态框的滚动条沟槽问题 */
+/* 参考：https://github.com/saadeghi/daisyui/issues/3040#issuecomment-2250530354 */
+:root:has(
+    :is(
+        .modal-open,
+        .modal:target,
+        .modal-toggle:checked + .modal,
+        .modal[open]
+      )
+  ) {
+  scrollbar-gutter: unset !important;
+
+}
+/* 不同页面的数据属性对应的背景色设置 */
+html[data-page='default'] {
+  background: theme('colors.base-100');
+}
+
+html[data-page='library'] {
+  background: theme('colors.base-200');
+}
+
+html[data-page='reader'] {
+  background: theme('colors.base-100');
+}
+/* 全局 body 样式 */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* 系统字体堆栈 */
+  border-radius: 10px;
+  background-color: transparent;
+  cursor: default;
+}

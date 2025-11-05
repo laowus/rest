@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 14, "column": 0}, "map": {"version":3,"sources":["file:///D:/tauri/rest/src/app/page.tsx"],"sourcesContent":["export default function Home() {\r\n  return <div>Home</div>;\r\n}\r\n"],"names":[],"mappings":";;;;;;AAAe,SAAS;IACtB,qBAAO,6WAAC;kBAAI;;;;;;AACd","debugId":null}}]
+}
