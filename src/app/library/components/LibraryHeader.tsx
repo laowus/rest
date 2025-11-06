@@ -8,7 +8,7 @@ import { PiDotsThreeCircle } from 'react-icons/pi';
 import { MdOutlineMenu, MdArrowBackIosNew } from 'react-icons/md';
 import { IoMdCloseCircle } from 'react-icons/io';
 import { useResponsiveSize } from '@/hooks/useResponsiveSize';
-
+import WindowButtons from '@/components/WindowButtons';
 import { useTrafficLightStore } from '@/store/trafficLightStore';
 import { useEnv } from '@/context/EnvContext';
 
@@ -25,8 +25,22 @@ const LibraryHeader: React.FC<LibraryHeaderProps> = ({ isSelectMode, isSelectAll
   const searchParams = useSearchParams();
   const { appService } = useEnv();
   const { isTrafficLightVisible, initializeTrafficLightStore, initializeTrafficLightListeners, setTrafficLightVisibility, cleanupTrafficLightListeners } = useTrafficLightStore();
+
+  useEffect(() => {
+    if (!appService?.hasTrafficLight) return;
+
+    initializeTrafficLightStore(appService);
+    initializeTrafficLightListeners();
+    setTrafficLightVisibility(true);
+    return () => {
+      cleanupTrafficLightListeners();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appService?.hasTrafficLight]);
+
   const windowButtonVisible = appService?.hasWindowBar && !isTrafficLightVisible;
   const [searchQuery, setSearchQuery] = useState(searchParams?.get('q') ?? '');
+
   const isInGroupView = !!searchParams?.get('group');
 
   const headerRef = useRef<HTMLDivElement>(null);
@@ -40,9 +54,6 @@ const LibraryHeader: React.FC<LibraryHeaderProps> = ({ isSelectMode, isSelectAll
         windowButtonVisible ? 'sm:pr-4' : 'sm:pr-6', // 根据窗口按钮可见性调整右边距
         isTrafficLightVisible ? 'pl-16' : 'pl-0 sm:pl-2', // 根据交通灯可见性调整左边距
       )}
-      style={{
-        marginTop: appService?.hasSafeAreaInset ? `max(${insets.top}px, ${systemUIVisible ? statusBarHeight : 0}px)` : '0px',
-      }}
     >
       <div className='flex w-full items-center justify-between space-x-6 sm:space-x-12'>
         <div className='exclude-title-bar-mousedown relative flex w-full items-center pl-4'>
@@ -73,6 +84,17 @@ const LibraryHeader: React.FC<LibraryHeaderProps> = ({ isSelectMode, isSelectAll
             )}
           </div>
         </div>
+        {isSelectMode ? (
+          <div className={clsx('flex h-full items-center', 'w-max-[72px] w-min-[72px] sm:w-max-[80px] sm:w-min-[80px]')}>
+            <button onClick={isSelectAll ? onDeselectAll : onSelectAll} className='btn btn-ghost text-base-content/85 h-8 min-h-8 w-[72px] p-0 sm:w-[80px]' aria-label={isSelectAll ? 'Deselect' : 'Select All'}>
+              <span className='font-sans text-base font-normal sm:text-sm'>{isSelectAll ? 'Deselect' : 'Select All'}</span>
+            </button>
+          </div>
+        ) : (
+          <div className='flex h-full items-center gap-x-2 sm:gap-x-4'>
+            <WindowButtons headerRef={headerRef} showMinimize={windowButtonVisible} showMaximize={windowButtonVisible} showClose={windowButtonVisible} />
+          </div>
+        )}
       </div>
     </div>
   );
