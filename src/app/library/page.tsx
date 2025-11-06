@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import * as React from 'react';
 import { useState, useRef, useEffect, Suspense, useCallback } from 'react';
 import { ReadonlyURLSearchParams, useRouter, useSearchParams } from 'next/navigation';
+import LibraryHeader from './components/LibraryHeader';
 
 const LibraryPageWithSearchParams = () => {
   const searchParams = useSearchParams();
@@ -11,12 +12,13 @@ const LibraryPageWithSearchParams = () => {
 };
 
 const LibraryPageContent = ({ searchParams }: { searchParams: ReadonlyURLSearchParams | null }) => {
+  const [isSelectMode, setIsSelectMode] = useState(false);
+  const [isSelectAll, setIsSelectAll] = useState(false);
+  const [isSelectNone, setIsSelectNone] = useState(false);
   return (
-    <div className={clsx('h-[100vh]', 'data-[page=library]:bg-base-200')}>
-      <div className='container mx-auto px-4'>
-        <div className='flex justify-between items-center'>
-          <h1 className='text-3xl font-bold'>Library</h1>
-        </div>
+    <div aria-label='Your Library' className={clsx('library-page bg-base-200 text-base-content flex h-[100vh] flex-col overflow-hidden select-none')}>
+      <div className='top-0 z-40 w-full' role='banner'>
+        <LibraryHeader isSelectMode={isSelectMode} isSelectAll={isSelectAll} onImportBooks={() => {}} onToggleSelectMode={() => {}} onSelectAll={() => {}} onDeselectAll={() => {}} />
       </div>
     </div>
   );

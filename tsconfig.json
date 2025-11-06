@@ -28,7 +28,15 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@pdfjs/*": [
+        "./public/vendor/pdfjs/*"
+      ],
+    }
   },
   "include": [
     "src",
