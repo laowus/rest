@@ -40,6 +40,9 @@ const LibraryHeader: React.FC<LibraryHeaderProps> = ({ isSelectMode, isSelectAll
         windowButtonVisible ? 'sm:pr-4' : 'sm:pr-6', // 根据窗口按钮可见性调整右边距
         isTrafficLightVisible ? 'pl-16' : 'pl-0 sm:pl-2', // 根据交通灯可见性调整左边距
       )}
+      style={{
+        marginTop: appService?.hasSafeAreaInset ? `max(${insets.top}px, ${systemUIVisible ? statusBarHeight : 0}px)` : '0px',
+      }}
     >
       <div className='flex w-full items-center justify-between space-x-6 sm:space-x-12'>
         <div className='exclude-title-bar-mousedown relative flex w-full items-center pl-4'>

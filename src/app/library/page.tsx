@@ -17,7 +17,7 @@ const LibraryPageContent = ({ searchParams }: { searchParams: ReadonlyURLSearchP
   const [isSelectNone, setIsSelectNone] = useState(false);
   return (
     <div aria-label='Your Library' className={clsx('library-page bg-base-200 text-base-content flex h-[100vh] flex-col overflow-hidden select-none')}>
-      <div className='top-0 z-40 w-full' role='banner'>
+      <div className='top-0 z-40 w-full' role='banner' tabIndex={-1} aria-label={'Library Header'}>
         <LibraryHeader isSelectMode={isSelectMode} isSelectAll={isSelectAll} onImportBooks={() => {}} onToggleSelectMode={() => {}} onSelectAll={() => {}} onDeselectAll={() => {}} />
       </div>
     </div>

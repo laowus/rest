@@ -58,4 +58,46 @@ export abstract class BaseAppService implements AppService {
   async deleteDir(path: string, base: BaseDir, recursive: boolean = true): Promise<void> {
     return await this.fs.removeDir(path, base, recursive);
   }
+
+  async loadSettings(): Promise<SystemSettings> {
+    let settings: SystemSettings;
+
+    try {
+      await this.fs.exists(SETTINGS_FILENAME, 'Settings');
+      const txt = await this.fs.readFile(SETTINGS_FILENAME, 'Settings', 'text');
+      settings = JSON.parse(txt as string);
+      const version = settings.version ?? 0;
+      if (this.isAppDataSandbox || version < SYSTEM_SETTINGS_VERSION) {
+        settings.version = SYSTEM_SETTINGS_VERSION;
+      }
+      settings = { ...DEFAULT_SYSTEM_SETTINGS, ...settings };
+      settings.globalReadSettings = { ...DEFAULT_READSETTINGS, ...settings.globalReadSettings };
+      settings.globalViewSettings = {
+        ...this.getDefaultViewSettings(),
+        ...settings.globalViewSettings,
+      };
+
+      settings.localBooksDir = await this.fs.getPrefix('Books');
+      if (!settings.kosync.deviceId) {
+        settings.kosync.deviceId = uuidv4();
+        await this.saveSettings(settings);
+      }
+    } catch {
+      settings = {
+        ...DEFAULT_SYSTEM_SETTINGS,
+        version: SYSTEM_SETTINGS_VERSION,
+        localBooksDir: await this.fs.getPrefix('Books'),
+        koreaderSyncDeviceId: uuidv4(),
+        globalReadSettings: {
+          ...DEFAULT_READSETTINGS,
+          ...(this.isMobile ? DEFAULT_MOBILE_READSETTINGS : {}),
+        },
+        globalViewSettings: this.getDefaultViewSettings(),
+      } as SystemSettings;
+      await this.saveSettings(settings);
+    }
+
+    this.localBooksDir = settings.localBooksDir;
+    return settings;
+  }
 }
