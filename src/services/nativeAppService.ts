@@ -1,7 +1,6 @@
 import { exists, mkdir, readTextFile, readFile, writeTextFile, writeFile, readDir, remove, copyFile, stat, BaseDirectory, WriteFileOptions, DirEntry } from '@tauri-apps/plugin-fs';
 import { invoke, convertFileSrc } from '@tauri-apps/api/core';
-import { open as openDialog } from '@tauri-apps/plugin-dialog';
-import { join, basename, appDataDir, appConfigDir, appCacheDir, appLogDir, tempDir } from '@tauri-apps/api/path';
+import { join, basename, appConfigDir, tempDir } from '@tauri-apps/api/path';
 import { type as osType } from '@tauri-apps/plugin-os';
 
 import { FileSystem, BaseDir, AppPlatform, ResolvedPath, FileItem, DistChannel } from '@/types/system';
@@ -10,7 +9,7 @@ import { getDirPath, getFilename } from '@/utils/path';
 import { NativeFile, RemoteFile } from '@/utils/file';
 import { copyURIToPath } from '@/utils/bridge';
 import { BaseAppService } from './appService';
-import { DATA_SUBDIR, LOCAL_BOOKS_SUBDIR, LOCAL_FONTS_SUBDIR, LOCAL_IMAGES_SUBDIR, SETTINGS_FILENAME } from './constants';
+import { SETTINGS_FILENAME } from './constants';
 
 declare global {
   interface Window {

@@ -45,7 +45,8 @@
   "plugins": {
     "fs": {
       "requireLiteralLeadingDot": false
-    },   
+    },
+    "os": {},
     "cli": {
       "description": "rest CLI",
       "args": [

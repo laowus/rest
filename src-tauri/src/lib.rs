@@ -123,10 +123,11 @@ pub fn run() {
     // 创建 Tauri 应用构建器并配置插件
     let builder = tauri::Builder::default()
         .plugin(tauri_plugin_opener::init()) // 打开器插件，用于打开外部文件
-        .invoke_handler(tauri::generate_handler![]) // 注册可从 JS 调用的命令
+        .invoke_handler(tauri::generate_handler![get_executable_dir]) // 注册可从 JS 调用的命令
         .plugin(tauri_plugin_fs::init()) // 文件系统插件
         .plugin(tauri_plugin_shell::init()) // Shell 插件，用于执行系统命令
         .plugin(tauri_plugin_opener::init()) // 再次初始化打开器插件（可能是重复代码）
+        .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_dialog::init()); // 对话框插件
 
     // 桌面环境下添加窗口状态插件

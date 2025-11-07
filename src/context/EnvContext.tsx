@@ -28,7 +28,17 @@ export const EnvProvider = ({ children }: { children: ReactNode }) => {
   // 并添加全局错误事件监听器
   React.useEffect(() => {
     // 异步获取应用服务实例并设置到状态中
-    envConfig.getAppService().then((service) => setAppService(service));
+    envConfig.getAppService().then((service) => {
+      setAppService(service);
+      console.log('当前使用的服务:', service.constructor.name);
+      console.log('hasWindowBar值:', service.hasWindowBar);
+      if (service.constructor.name === 'NativeAppService') {
+        // 动态导入osType以查看实际值
+        import('@tauri-apps/plugin-os').then(({ type }) => {
+          console.log('OS_TYPE实际值:', type());
+        });
+      }
+    });
 
     // 添加全局错误事件监听器
     // 处理 ResizeObserver 循环限制超出的错误

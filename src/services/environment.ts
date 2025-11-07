@@ -50,6 +50,7 @@ const getWebAppService = async () => {
 
 const environmentConfig: EnvConfigType = {
   getAppService: async () => {
+    console.log('getAppService', isTauriAppPlatform());
     if (isTauriAppPlatform()) {
       return getNativeAppService();
     } else {
