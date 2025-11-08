@@ -4,7 +4,7 @@ import { useEnv } from '@/context/EnvContext';
 
 import { tauriHandleMinimize, tauriHandleToggleMaximize, tauriHandleClose } from '@/utils/window';
 import { isTauriAppPlatform } from '@/services/environment';
-// import { useTranslation } from '@/hooks/useTranslation';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface WindowButtonsProps {
   className?: string;
@@ -25,13 +25,13 @@ interface WindowButtonProps {
 }
 
 const WindowButton: React.FC<WindowButtonProps> = ({ onClick, label, id, children }) => (
-  <button id={id} onClick={onClick} className='window-button bg-base-200/35 hover:bg-base-200 text-base-content/85 hover:text-base-content' aria-label={label}>
+  <button id={id} onClick={onClick} className='window-button bg-base-200/35 text-base-content/85 hover:bg-base-200 hover:text-base-content' aria-label={label}>
     {children}
   </button>
 );
 
 const WindowButtons: React.FC<WindowButtonsProps> = ({ className, headerRef, showMinimize = true, showMaximize = true, showClose = true, onMinimize, onToggleMaximize, onClose }) => {
-  // const _ = useTranslation();
+  const _ = useTranslation();
   const parentRef = useRef<HTMLDivElement>(null);
   const { appService } = useEnv();
 
@@ -172,7 +172,7 @@ const WindowButtons: React.FC<WindowButtonsProps> = ({ className, headerRef, sho
   return (
     <div ref={parentRef} className={clsx('window-buttons flex h-8 items-center justify-end space-x-2', showClose || showMaximize || showMinimize ? 'visible' : 'hidden', className)}>
       {showMinimize && appService?.hasWindowBar && (
-        <WindowButton onClick={handleMinimize} label={'Minimize'} id='titlebar-minimize'>
+        <WindowButton onClick={handleMinimize} label={_('Minimize')} id='titlebar-minimize'>
           <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
             <path fill='currentColor' d='M20 14H4v-2h16' />
           </svg>
@@ -180,7 +180,7 @@ const WindowButtons: React.FC<WindowButtonsProps> = ({ className, headerRef, sho
       )}
 
       {showMaximize && appService?.hasWindowBar && (
-        <WindowButton onClick={handleMaximize} label={'Maximize or Restore'} id='titlebar-maximize'>
+        <WindowButton onClick={handleMaximize} label={_('Maximize or Restore')} id='titlebar-maximize'>
           <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
             <path fill='currentColor' d='M4 4h16v16H4zm2 4v10h12V8z' />
           </svg>
@@ -188,7 +188,7 @@ const WindowButtons: React.FC<WindowButtonsProps> = ({ className, headerRef, sho
       )}
 
       {showClose && (appService?.hasWindowBar || onClose) && (
-        <WindowButton onClick={handleClose} label={'Close'} id='titlebar-close'>
+        <WindowButton onClick={handleClose} label={_('Close')} id='titlebar-close'>
           <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
             <path fill='currentColor' d='M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z' />
           </svg>

@@ -65,7 +65,7 @@ export const generateDarkPalette = ({ bg, fg, primary }: BaseColor) => {
     'neutral-content': tinycolor(fg).darken(20).desaturate(20).toHexString(), // Darkened text
     primary: primary,
     secondary: tinycolor(primary).darken(20).toHexString(), // Darker secondary
-    accent: tinycolor(primary).triadic()[1]!.toHexString(), // Triad accent
+    //accent: tinycolor(primary).triad()[1]!.toHexString(), // Triad accent
   } as Palette;
 };
 
