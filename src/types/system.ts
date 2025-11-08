@@ -1,3 +1,6 @@
+import { SystemSettings } from './settings';
+import { Book, BookConfig, BookContent, ViewSettings } from './book';
+import { BookMetadata } from '@/libs/document';
 // 应用平台类型定义
 // 'web'表示Web浏览器环境，'tauri'表示Tauri原生应用环境
 export type AppPlatform = 'web' | 'tauri';
@@ -95,4 +98,19 @@ export interface AppService {
   createDir(path: string, base: BaseDir, recursive?: boolean): Promise<void>; // 创建目录
   deleteFile(path: string, base: BaseDir): Promise<void>; // 删除文件
   deleteDir(path: string, base: BaseDir, recursive?: boolean): Promise<void>; // 删除目录
+
+  // 设置相关方法
+  getDefaultViewSettings(): ViewSettings; // 获取默认视图设置
+  loadSettings(): Promise<SystemSettings>; // 加载系统设置
+  saveSettings(settings: SystemSettings): Promise<void>;
+
+  downloadBookCovers(books: Book[], redownload?: boolean): Promise<void>; // 批量下载图书封面
+  isBookAvailable(book: Book): Promise<boolean>; // 检查图书是否可用
+  getBookFileSize(book: Book): Promise<number | null>; // 获取图书文件大小
+  loadBookConfig(book: Book, settings: SystemSettings): Promise<BookConfig>; // 加载图书配置
+  fetchBookDetails(book: Book, settings: SystemSettings): Promise<BookMetadata>; // 获取图书详细信息
+  saveBookConfig(book: Book, config: BookConfig, settings?: SystemSettings): Promise<void>; // 保存图书配置
+  loadBookContent(book: Book, settings: SystemSettings): Promise<BookContent>; // 加载图书内容
+  loadLibraryBooks(): Promise<Book[]>; // 加载图书馆所有图书
+  saveLibraryBooks(books: Book[]): Promise<void>; // 保存图书馆图书列表
 }
